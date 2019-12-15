@@ -1,0 +1,1 @@
+pyinstaller --onefile --windowed  --add-data gg-icon.ico;. --icon=".\gg-icon.ico" gsmGuardConf.py
