@@ -3,7 +3,6 @@
 A compact multi-purpose all-in-one open source GSM alarm system.
 Build on the base of Arduino Pro Mini and Arduino-compatible modules.
 
-[TOC]
 
 ## Features
 ### Communication
@@ -50,11 +49,11 @@ The device can be connected to a PC via USB for configuration.
 Configuration program lets you set target phone number, time of daily SMS report, choose events that will be reported, a way of notification (SMS, call, sound alarm) and set time periods during which those events are being monitored. I.e. if you know that the room is being used during some hours in certain days of the week, you can disable the alarm for that period.
 It also shows the last 70 events with date and time and a temperature plot for the last 31 days (one measurement every 2 hours).
 
-<img width="800" align="left" src="img/sc_GG1.png" />
+<img width="800" src="img/sc_GG1.png" />
 
-<img width="500" align="left" src="img/sc_GG2.png" />
+<img width="500" src="img/sc_GG2.png" />
 
-<img width="500" align="left" src="img/sc_GG3.png" />
+<img width="500" src="img/sc_GG3.png" />
 
 ### Localization
 
@@ -72,23 +71,23 @@ List of Arduino modules you will need:
 
 - Arduino Pro Mini 3.3v 8MHz (5v 16MHz is also acceptable, but requires different firmware) 
 
-  <img height="120" align="left" src="img/arduino_pro_mini.png" />
+  <img height="120" src="img/arduino_pro_mini.png" />
 
 -  MH-SR602 MINI Motion Sensor 
 
-  <img height="120" align="left" src="img/pir.png" />
+  <img height="120" src="img/pir.png" />
 
 -  SIM800C(L) GSM Module 
 
-  <img height="120" align="left" src="img/sim800.png" />
+  <img height="120" src="img/sim800.png" />
 
 -  CP2102 MICRO USB to UART TTL Module
 
-  <img height="120" align="left" src="img/uart-usb.png" />
+  <img height="120" src="img/uart-usb.png" />
 
 -  DS3231 RTC Module For Raspberry Pi 
 
-  <img height="120" align="left" src="img/rtc.png" />
+  <img height="120" src="img/rtc.png" />
 
 Other components
 
@@ -96,24 +95,23 @@ Other components
 
 - reed switch
 
-  <img height="120" align="left" src="img/reed.png" />
+  <img height="120" src="img/reed.png" />
 
 - buzzer 3 to 5v
 
-  <img height="120" align="left" src="img/buzzer.png" />
+  <img height="120" src="img/buzzer.png" />
 
 - electret microphone
 
 - photoresistor
 
-  <img height="120" align="left" src="img/photo_r.png" />
+  <img height="120" src="img/photo_r.png" />
 
 - resistors, capacitors 
 
 The schematics:
 
-<img width="800" align="left" src="img/gg_sch_1.0.png" />
-
+<img width="800" src="img/gg_sch_1.0.png" />
 
 
 #### Important Note
