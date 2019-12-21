@@ -12,7 +12,7 @@
 #include <Wire.h>
 #include "TempHistory.h"
 
-//#define PIR_ROUGH_FILTER
+#define PIR_RELAX_TIME_MIN 20
 
 #define LIGHT_PIN A0
 #define TEMP_PIN 9
@@ -138,25 +138,15 @@ private:
     return val;
   }
   static bool pir(const DateTime &curTime) {
-#ifdef PIR_ROUGH_FILTER
-    static DateTime lastOn, lastOff;
-    static bool prv = false;
-    const bool cur = digitalRead(PIR_PIN);
-    bool result = false;
-
-    if(!prv && cur) {
+#ifdef PIR_RELAX_TIME_MIN
+    static DateTime lastOn;
+    bool cur = digitalRead(PIR_PIN);
+    if(cur) {
+      if((curTime - lastOn).totalseconds() < PIR_RELAX_TIME_MIN*60)
+        cur = false;
       lastOn = curTime;
-      if((curTime - lastOff).totalseconds() < 12)
-        result = true;
-    } else if(prv && cur) {
-      if((curTime - lastOn).totalseconds() > 4)
-        result = true;
-    } else if(prv && !cur) {
-      lastOff = curTime;
     }
-    prv = cur;
-
-    return result;
+    return cur;
 #else
     return digitalRead(PIR_PIN);
 #endif
