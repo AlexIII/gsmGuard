@@ -152,6 +152,9 @@ You can upload precompiled `*.hex` firmware to Arduino via [xLoader](http://www.
 - Door, movement and light change events are not monitored for 20 minutes after the last reported event.
 - If the device's power was turned off for three hours, the temperature history gets erased.
 
+## Known issues
+It looks like PIR sensors perform badly in cold temperature. Mine starts losing stability (frequent false tripping) when ambient temperature drops below +5 Celsius.  I'm sure it havely depends on the particular model, though.
+
 ## Project files
 - /config-util - PC configuration program. Python 2.7 + Tk + pyserial + matplotlib
 - /gsmGuard-firmware - Arduino firmware. In order to successfully compile it, some manual tweaks to Arduino IDE is needed: 
