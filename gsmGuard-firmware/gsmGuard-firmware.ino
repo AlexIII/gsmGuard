@@ -10,6 +10,7 @@ Libraries:
 https://github.com/AlexIII/TinyGSM (modified, pull request is pending)
 https://github.com/Densaugeo/base64_arduino
 https://github.com/AlexIII/RTCLib (modified, pull request is pending)
+https://github.com/AlexIII/EEvar
 
 Board: Arduino Nano / Pro / pro mini - 8MHz
 */ 
@@ -34,12 +35,8 @@ Board: Arduino Nano / Pro / pro mini - 8MHz
 #include "Scheduler.h"
 #include "Config.h"
 
-#ifdef F_CPU_8MHZ
-  #if F_CPU != 8000000
-    #error "F_CPU is not 8 MHz! Set correct clock or board."
-  #endif
-#elif F_CPU != 16000000
-  #error "F_CPU is not 16 MHz! Set correct clock or board."
+#if F_CPU != 8000000
+  #error "F_CPU is not 8 MHz! Select board with 8MHz clock even if you actually use 16MHz. (in which case also #define F_CPU_16MHZ at the beginning of *.ino file)"
 #endif
 
 ConfigSerial config;
@@ -146,7 +143,7 @@ void setup() {
   SerialMon.setTimeout(2000);
   delay(50);
   SerialAT.begin(AT_BAUDRATE);
-
+  
   Hardware::init();
   delay(300);
   status.init();
@@ -183,7 +180,7 @@ void setup() {
     }
   }
   
-  DBG(F("Free EEPROM bytes:"), eeFree());
+  DBG(F("Free EEPROM bytes:"), EEPROMallocator::free());
   if(!config.chkCRC()) { //broken config
     status.events.reset(); //reset memory
     tempHistory.reset();

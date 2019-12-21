@@ -9,11 +9,22 @@
 #define _CONFIG_H_
 
 #include <base64.hpp>
+#include <EEvar.h>
 #include "Hardware.h"
 #include "Event.h"
-#include "EEvar.h"
 
-class Config : public EEvarCRC<Config> {
+class Config {
+private:
+  uint8_t crc;
+  uint8_t calcCRC() const {
+    uint8_t tmp = 0;
+    const uint8_t* data = (const uint8_t*)this + sizeof(crc);
+    for(uint16_t i = 0; i < sizeof(*this) - sizeof(crc); ++i)
+      tmp += *data++;
+    return tmp;
+  }
+public:
+  bool chkCRC() { return crc == calcCRC(); }
 public:
   constexpr static uint8_t scheduleMaxSize = 15;
   char phoneNumber[13];
@@ -67,47 +78,26 @@ public:
     if(e.n > Event::LIGHT_CHANGED) return Event::SMS;
     return getAction(SchEntry::EventSource(1<<e.n));
   }
-  bool test() {
-    strcpy(phoneNumber, "+79122433841");
-    strcpy(lang, "ru");
-    strcpy(dailyReportTime, "21:00");
-    minTemp = -30;
-    maxTemp = 40;
-    scheduleSize = 1;
-    schedule[0].days = 0xFF;
-    schedule[0].src = SchEntry::DOOR_OPEN;
-    schedule[0].act = (Event::Action)0xFF;
-    schedule[0].fromMin = schedule[0].toMin = 10;
-    for(uint8_t i = 1; i < scheduleMaxSize; ++i) {
-      schedule[0].days = 0;
-      schedule[0].src = (SchEntry::EventSource)0;
-      schedule[0].act = (Event::Action)0;
-      schedule[0].fromMin = schedule[0].toMin = 0;
-    }
-    save();
-    load();
-    return chkCRC();
-  }
 };
 
 class ConfigSerial : public Config {
   constexpr static int mySz() {
-    return sizeof(ConfigSerial) - dataOffset;
+    return sizeof(ConfigSerial) - sizeof(ConfigSerial::store);
   }
 public:
-  ConfigSerial() {}
+  ConfigSerial() { store >> *this; }
   bool formBASE64(const char* str) {
     if(decode_base64_length((uint8_t*)str) != mySz()) {
       DBG(F("Received config: wrong size. Abort."));
       return false;
     }
-    decode_base64((uint8_t*)str, (uint8_t*)this + dataOffset);
+    decode_base64((uint8_t*)str, (uint8_t*)this);
     if(!chkCRC()) {
-      load();
+      store >> *this;
       DBG(F("Received config: wrong crc. Abort."));
       return false;
     }
-    save();
+    store << *this;
     Hardware::setTime(time);
     return true;
   }
@@ -116,11 +106,12 @@ public:
     char buff[len];
     strcpy(time, "DD.MM.YY hh:mm:ss");
     Hardware::now().format(time);
-    encode_base64((uint8_t*)this + dataOffset, mySz(), (uint8_t*)buff);
+    encode_base64((uint8_t*)this, mySz(), (uint8_t*)buff);
     s.write(buff);
   }  
 private:
   char time[21];  
+  EEstore<ConfigSerial> store;
 };
 
 #endif

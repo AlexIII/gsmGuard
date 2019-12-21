@@ -8,12 +8,12 @@
 #ifndef _EERINGQUEUE_H_
 #define _EERINGQUEUE_H_
 
-#include "EEPROMallocator.h"
+#include <EEPROMallocator.h>
 
 template <typename T, int SZ, typename index_t = uint8_t>
 class EeRingQueue {
 public:
-  EeRingQueue() : addr(eeAlloc(sizeof(state) + sizeof(T)*SZ)) {
+  EeRingQueue() : addr((uint16_t)EEPROMallocator::alloc(sizeof(state) + sizeof(T)*SZ)) {
     EEPROM.get(addr, state);
     if(!state.isOk()) reset();
   }

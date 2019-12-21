@@ -6,19 +6,15 @@
  */
 
 #include "EeRingQueue.h"
-#include "EEvar.h"
-
-struct BaseTime : EEvar<BaseTime> {
-  uint32_t time;
-};
+#include <EEvar.h>
   
 class TempHistory {
 public:
   constexpr static int size = 31*12;
-  BaseTime baseTime;
+  EEvar<uint32_t> baseTime;
   EeRingQueue<int8_t, size, uint16_t> samples;
 
-  TempHistory(const uint32_t period) : period(period) {
+  TempHistory(const uint32_t period) : baseTime(0), period(period) {
     baseTime.load();
     last = time(samples.size()-1);
   }
@@ -30,11 +26,11 @@ public:
     if(last > now || newNotLaterThan < now) samples.reset();
     //update base timestamp
     if(!samples.size()) {
-      baseTime.time = now.unixtime();
+      *baseTime = now.unixtime();
       baseTime.save();
     }
     if(samples.size() == samples.capacity()) {
-      baseTime.time += period;
+      *baseTime += period;
       baseTime.save();
     }
     samples.put(temp);
@@ -44,7 +40,7 @@ public:
     samples.reset();
   }
   DateTime time(const uint16_t n) const {
-    return DateTime(baseTime.time) + TimeDelta(uint32_t(n)*period);
+    return DateTime(*baseTime) + TimeDelta(uint32_t(n)*period);
   }
   void dumpCSV(Stream &s, const char separator = ';') const {
     csvHeader(s, separator);
