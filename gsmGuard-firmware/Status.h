@@ -87,7 +87,8 @@ public:
   }
 
   void print(Print& p) {
-    const auto eventDate = [&events = events](const Event::EventNumber n) -> const char* {
+    auto &events = this->events;
+    const auto eventDate = [&events](const Event::EventNumber n) -> const char* {
       Event e;
       if(events.findLast(e, n)) {
         static char timeStr[15];

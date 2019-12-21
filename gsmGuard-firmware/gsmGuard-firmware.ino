@@ -53,15 +53,19 @@ enum ConfigAction : uint8_t {
   TEMP_REQ
 };
 
+class ExposedStream : public Stream {
+  friend ConfigAction getConfigStr(Stream &stream, char* confBuff, const size_t confBuffSz, const bool wait);
+};
+
 ConfigAction getConfigStr(Stream &stream, char* confBuff, const size_t confBuffSz, const bool wait = true) {
   if(!wait && !stream.available()) return NONE;
-  Stream::MultiTarget targets[] = {
+  ExposedStream::MultiTarget targets[] = {
     {"\nCONFIG_V1: ", 12, 0},
     {"\nCONFIG_REQ",  11, 0},
     {"\nEVENTS_REQ",  11, 0},
     {"\nTEMP_REQ",     9, 0}
   };
-  const int res = stream.findMulti(targets, 4) + 1;
+  const int res = static_cast<ExposedStream&>(stream).findMulti(targets, 4) + 1;
   if(!res) return NONE;
   if(res == CONFIG_SET) {
     const int r = stream.readBytesUntil('\n', confBuff, confBuffSz-1);

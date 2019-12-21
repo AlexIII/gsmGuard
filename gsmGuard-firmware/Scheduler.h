@@ -82,7 +82,8 @@ public:
 
   bool sendAll() {
     if(reportStatus) {
-      if(!reporter.send([&status = status](Print &&p){status.print(p);}))
+      auto &status = this->status;
+      if(!reporter.send([&status](Print &&p){status.print(p);}))
           reportStatus = false;
     }
     bool ok = false;
