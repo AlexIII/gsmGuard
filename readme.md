@@ -157,9 +157,9 @@ It looks like PIR sensors perform badly in cold temperature. Mine starts losing 
 
 ## Project files
 - /config-util - PC configuration program. Python 2.7 + Tk + pyserial + matplotlib
-- /gsmGuard-firmware - Arduino firmware. In order to successfully compile it, some manual tweaks to Arduino IDE is needed: 
-  1. Manually install RTCLib (clone the repo, or use release that LATER than 1.5.6 if there's one) https://github.com/NeiroNx/RTCLib and TinyGSM from https://github.com/AlexIII/TinyGSM
-  2. Go to `cores/arduino/HardwareSerial.h`. Change <u>second</u> entry `#define SERIAL_RX_BUFFER_SIZE 64` to `#define SERIAL_RX_BUFFER_SIZE 256`
+- /gsmGuard-firmware - Arduino firmware. In order to successfully compile it, you need to manually install these libs:
+  1. RTCLib from https://github.com/NeiroNx/RTCLib (clone the repo, or use release that LATER than 1.5.6 if there's one)
+  2. TinyGSM from https://github.com/AlexIII/TinyGSM (pull request to the original repo is pending)
 - /kicad-project - KiCAD schematics and board
 
 ## License
