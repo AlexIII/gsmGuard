@@ -10,10 +10,21 @@
 
 class Events : public EeRingQueue<Event, 70> {
 public:
-  bool findLast(Event &e, const Event::EventNumber n = Event::NO_EVENT) const {
+  bool findLast(Event &e, const Event::EventNumber n) {
+    return findLast(e, &n, 1);
+  }
+  bool findLast(Event &e, Event::EventNumber const* const evts = 0, const uint8_t evtsSz = 0) const {
+    if(!evts || !evtsSz) {
+      if(size()) {
+        get(size()-1, e);
+        return true;
+      }
+      return false;
+    }
     for(uint8_t i = 0; i < size(); ++i) {
       get(size()-1-i, e);
-      if(n == Event::NO_EVENT || e.n == n) return true;
+      for(uint8_t k = 0; k < evtsSz; ++k)
+        if(e.n == evts[k]) return true;
     }
     return false;
   }

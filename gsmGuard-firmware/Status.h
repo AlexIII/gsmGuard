@@ -68,7 +68,15 @@ public:
     bool addEvent = false;
     {
       Event prv;
-      if(events.findLast(prv, e.n)) {
+      const Event::EventNumber extSens[] = {Event::DOOR_OPEN, Event::MOVEMENT, Event::LIGHT_CHANGED};
+      if(
+        ( 
+          config.flags.maxOneReportIn20min && 
+          (e.n == Event::DOOR_OPEN || e.n == Event::MOVEMENT || e.n == Event::LIGHT_CHANGED) &&
+          events.findLast(prv, extSens, sizeof(extSens)/sizeof(extSens[0]))
+        ) || 
+        events.findLast(prv, e.n)
+      ) {
         uint32_t timeout = eventReportTimeoutSec;
         if(e.n == Event::TEMP_HIGH || e.n == Event::TEMP_LOW) timeout = tempReportTimeoutSec;
         else if(e.n == Event::BAT_LOW) timeout = batReportTimeoutSec;

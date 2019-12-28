@@ -16,6 +16,7 @@ Locals = {
         'Incorrect time in the schedule': 'Неверно введено время в расписании',
         'Select at least one day of the week': 'Не выбран ни один день недели',
         'Select at least one event': 'Не выбрано ни одно событие',
+        'Max one report in 20min': 'Не более одного сообщения в 20 мин.',
 
         'Day of the week': 'День недели',
         'from': 'c',

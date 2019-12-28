@@ -32,6 +32,11 @@ public:
   char dailyReportTime[6];
   int8_t minTemp;
   int8_t maxTemp;
+  struct {
+    bool maxOneReportIn20min  : 1;
+  private:
+    uint8_t reserved          : 7;
+  } flags;
 
   struct SchEntry {
     uint8_t days;
@@ -111,7 +116,7 @@ public:
   }  
 private:
   char time[21];  
-  EEstore<ConfigSerial> store;
+  EEstore<Config> store;
 };
 
 #endif

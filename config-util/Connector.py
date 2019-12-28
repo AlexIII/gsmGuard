@@ -155,9 +155,13 @@ class Connector:
         buff = buff[6:]
         (conf['minT'], conf['maxT']) = struct.unpack_from('bb', buff)
         buff = buff[2:]
-        sSz = int(struct.unpack_from('b', buff)[0])
+        conf['flags'] = int(struct.unpack_from('B', buff)[0])
+        buff = buff[1:]
+        sSz = int(struct.unpack_from('B', buff)[0])
         if sSz < 1:
             raise Exception('Broken config: schedule size is 0')
+        if sSz > 15:
+            raise Exception('Broken config: schedule size is more then 15')
         buff = buff[1:]
         conf['sched'] = []
         for i in range(0, sSz):
@@ -180,6 +184,7 @@ class Connector:
         buff += struct.pack('3s', 'ru')
         buff += struct.pack('6s', conf['dRep'])
         buff += struct.pack('bb', conf['minT'], conf['maxT'])
+        buff += struct.pack('B', conf['flags'])
         buff += struct.pack('B', len(conf['sched']))
         buff += Connector.schEntrys(conf['sched'])
         crc = Connector.crc(buff)

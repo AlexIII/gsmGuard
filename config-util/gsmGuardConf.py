@@ -294,6 +294,12 @@ class GUI:
         self.phone = StringVar(value = '+12225566123')
         ttk.Entry(phoneFrame, width=20, textvariable=self.phone).pack(side = 'left', padx = 3, pady = 3)
 
+        #Max one report in 20min
+        maxOneRepFrame = ttk.Frame(mainConfFrame)
+        maxOneRepFrame.pack(side = 'top', padx = 3, pady = 3, anchor="w")
+        self.maxOneRepOn = IntVar(value = 0)
+        ttk.Checkbutton(maxOneRepFrame, text = Local('Max one report in 20min'), variable=self.maxOneRepOn).pack(side = 'left', padx = 3, pady = 3)
+
         #daily report time
         dRepFrame = ttk.Frame(mainConfFrame)
         dRepFrame.pack(side = 'top', padx = 3, pady = 3, anchor="w")
@@ -403,6 +409,7 @@ class GUI:
             data['dRep'] = 'none'
         data['minT'] = int(self.tempMin.get())
         data['maxT'] = int(self.tempMax.get())
+        data['flags'] = self.maxOneRepOn.get() & 0x01
         data['time'] = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         data['sched'] = []
         for e in self.sEntries:
@@ -420,6 +427,7 @@ class GUI:
             self.repMin.set(t[1])
         self.tempMin.set(data['minT'])
         self.tempMax.set(data['maxT'])
+        self.maxOneRepOn.set(data['flags'] & 0x01)
         
         #make enties
         while len(self.sEntries) < len(data['sched']):
