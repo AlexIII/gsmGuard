@@ -17,7 +17,7 @@ class SensorComparator {
   uint8_t critLightChange;
   int8_t critMinTemp;
   int8_t critMaxTemp;
-  uint8_t minBat = 36; //3.3v
+  uint8_t minBat = 39; //3.9v
 public:
   SensorComparator(const int8_t critMinTemp, const int8_t critMaxTemp, const uint8_t critLightChange = 35) :
     critLightChange(critLightChange), critMinTemp(critMinTemp), critMaxTemp(critMaxTemp) {}

@@ -7,10 +7,10 @@
 
 #include <TinyGsmClient.h>
 
-class TinyGsmUTF : public TinyGsm {
+class TinyGsmExtra : public TinyGsm {
 public:
   template<typename ...Args>
-  TinyGsmUTF(Args&&... args): TinyGsm(args...) {}
+  TinyGsmExtra(Args&&... args): TinyGsm(args...) {}
   
   void handsFree() {
     sendAT(GF("+CHF=0,2")); //hands free mode

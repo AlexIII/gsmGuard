@@ -6,7 +6,7 @@
  */
 
 #define TINY_GSM_MODEM_SIM800
-#include "TinyGsmUTF.h"
+#include "TinyGsmExtra.h"
 #define BOOT_PIN 2
 #define MODEM_POWER_PIN 5
 
@@ -46,7 +46,7 @@ public:
   }
   
 private:
-  TinyGsmUTF modem;
+  TinyGsmExtra modem;
   bool inited = false;
   const char* const target;
 
