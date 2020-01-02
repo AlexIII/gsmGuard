@@ -34,8 +34,9 @@ public:
   int8_t maxTemp;
   struct {
     bool maxOneReportIn20min  : 1;
+    bool tempAlarmIsOn        : 1;
   private:
-    uint8_t reserved          : 7;
+    uint8_t reserved          : 6;
   } flags;
 
   struct SchEntry {

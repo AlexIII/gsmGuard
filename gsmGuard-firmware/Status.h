@@ -85,6 +85,8 @@ public:
           addEvent = true; //timeout has elapsed
         else DBG(F("Event has already been reported."));
       } else addEvent = true; //we havn't reported it yet
+
+      if((e.n == Event::TEMP_HIGH || e.n == Event::TEMP_LOW) && !config.flags.tempAlarmIsOn) addEvent = false;
     }
     
     if(addEvent) {

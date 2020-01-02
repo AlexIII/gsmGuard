@@ -304,7 +304,8 @@ class GUI:
         dRepFrame = ttk.Frame(mainConfFrame)
         dRepFrame.pack(side = 'top', padx = 3, pady = 3, anchor="w")
         self.repOn = IntVar(value = 1)
-        ttk.Checkbutton(dRepFrame, text = Local('Daily report'), variable=self.repOn, command = lambda: drepEn(self.repOn.get())).pack(side = 'left', padx = 3, pady = 3)
+        ttk.Checkbutton(dRepFrame, text = Local('Daily report'), variable=self.repOn).pack(side = 'left', padx = 3, pady = 3)
+        self.repOn.trace('w', lambda *args: drepEn(self.repOn.get()))
         self.repHr = StringVar(value = '20')
         rm = ttk.Entry(dRepFrame, width=2, textvariable=self.repHr)
         rm.pack(side = 'left')
@@ -323,14 +324,26 @@ class GUI:
         #temperature report
         tempFrame = ttk.Frame(mainConfFrame)
         tempFrame.pack(side = 'top', padx = 3, pady = 3, anchor="w")
-        ttk.Label(tempFrame, text = Local('Temperature alarm')).pack(side = 'top', padx = 3, pady = 3)
+        self.tempRepOn = IntVar(value = 1)
+        ttk.Checkbutton(tempFrame, text = Local('Temperature alarm'), variable=self.tempRepOn).pack(side = 'left', padx = 3, pady = 3)
+        self.tempRepOn.trace('w', lambda *args: trepEn(self.tempRepOn.get()))
+        #ttk.Label(tempFrame, text = Local('Temperature alarm')).pack(side = 'top', padx = 3, pady = 3)
         ttk.Label(tempFrame, text = Local('min.')).pack(side = 'left')
         self.tempMin = StringVar(value = '-30')
-        ttk.Entry(tempFrame, width=4, textvariable=self.tempMin).pack(side = 'left')
+        tmin = ttk.Entry(tempFrame, width=4, textvariable=self.tempMin)
+        tmin.pack(side = 'left')
         ttk.Label(tempFrame, text = "°С    " + Local('max.')).pack(side = 'left')
         self.tempMax = StringVar(value = '40')
-        ttk.Entry(tempFrame, width=4, textvariable=self.tempMax).pack(side = 'left')
+        tmax = ttk.Entry(tempFrame, width=4, textvariable=self.tempMax)
+        tmax.pack(side = 'left')
         ttk.Label(tempFrame, text = "°С").pack(side = 'left')
+        def trepEn(v):
+            if v:
+                tmin.config(state='enabled')
+                tmax.config(state='enabled')
+            else:
+                tmin.config(state='disabled')
+                tmax.config(state='disabled')
 
     def makeScheduleSettings(self, root):
         self.sEntries = []
@@ -409,7 +422,7 @@ class GUI:
             data['dRep'] = 'none'
         data['minT'] = int(self.tempMin.get())
         data['maxT'] = int(self.tempMax.get())
-        data['flags'] = self.maxOneRepOn.get() & 0x01
+        data['flags'] = ((self.tempRepOn.get()&1) << 1) | (self.maxOneRepOn.get()&1)
         data['time'] = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
         data['sched'] = []
         for e in self.sEntries:
@@ -428,6 +441,7 @@ class GUI:
         self.tempMin.set(data['minT'])
         self.tempMax.set(data['maxT'])
         self.maxOneRepOn.set(data['flags'] & 0x01)
+        self.tempRepOn.set(bool(data['flags'] & 0x02))
         
         #make enties
         while len(self.sEntries) < len(data['sched']):
