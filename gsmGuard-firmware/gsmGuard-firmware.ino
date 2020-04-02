@@ -7,10 +7,10 @@
 
 /*
 Libraries:
-https://github.com/AlexIII/TinyGSM (modified, pull request is pending)
-https://github.com/Densaugeo/base64_arduino
-https://github.com/AlexIII/RTCLib (modified, pull request is pending)
-https://github.com/AlexIII/EEvar
+https://github.com/vshymanskyy/TinyGSM (v0.10.1)
+https://github.com/Densaugeo/base64_arduino (v1.1.1)
+https://github.com/NeiroNx/RTCLib/releases (v1.5.8 - install manually, as of now this version is not available in the Library Manager)
+https://github.com/AlexIII/EEvar (v0.2.0)
 
 Board: Arduino Nano / Pro / pro mini - 8MHz
 */ 
