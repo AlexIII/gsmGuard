@@ -27,8 +27,8 @@ public:
   bool chkCRC() { return crc == calcCRC(); }
 public:
   constexpr static uint8_t scheduleMaxSize = 15;
-  char phoneNumber[13];
-  char lang[3];
+  char phoneNumber[15];
+  char lang[3]; //not used
   char dailyReportTime[6];
   int8_t minTemp;
   int8_t maxTemp;

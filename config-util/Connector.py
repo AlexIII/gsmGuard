@@ -180,8 +180,8 @@ class Connector:
         if Connector.debug:
             print(conf)
         buff = ''
-        buff += struct.pack('13s', conf['numb'])
-        buff += struct.pack('3s', 'ru')
+        buff += struct.pack('15s', conf['numb'])
+        buff += struct.pack('3s', 'ru') #not used
         buff += struct.pack('6s', conf['dRep'])
         buff += struct.pack('bb', conf['minT'], conf['maxT'])
         buff += struct.pack('B', conf['flags'])

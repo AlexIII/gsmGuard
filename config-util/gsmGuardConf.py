@@ -452,8 +452,8 @@ class GUI:
             self.sEntries[i].set(data['sched'][i])
             
     def validate(self):
-        if not re.match(r'^\+?\d{11}$', self.phone.get()):
-            raise Exception(Local('Success!'))
+        if not re.match(r'^\+?\d{5,12}$', self.phone.get()):
+            raise Exception(Local('Incorrect phone number'))
         if self.repOn.get() and (
             not self.repHr.get().isdigit()
             or not self.repMin.get().isdigit()

@@ -153,12 +153,15 @@ void setup() {
   status.init();
   DBG(F("System inited."));
 
+  
+  /*
   //reset history
-  //tempHistory.reset();
-  //status.events.reset();
-  //tempHistory.baseTime.time = Hardware::now().unixtime();
-  //tempHistory.baseTime.save();
-
+  tempHistory.reset();
+  status.events.reset();
+  tempHistory.baseTime.time = Hardware::now().unixtime();
+  tempHistory.baseTime.save();
+  */
+  
   /*
   //PIR test
   while(1) {
@@ -243,12 +246,6 @@ void sleep() {
 }
 
 void loop() {
-  /*
-  if(SerialAT.available()) SerialMon.write(SerialAT.read());
-  if(SerialMon.available()) SerialAT.write(SerialMon.read());
-  delay(10);
-  return;
-  */
   const auto s = millis();
   status.upd();
   DBG(F("Unreported queue size:"), status.events.unreportedCount(Event::ANY));
