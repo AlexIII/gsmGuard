@@ -77,9 +77,9 @@ List of Arduino modules you will need:
 
   <img height="120" src="img/pir.png" />
 
--  SIM800C(L) GSM Module 
+-  SIM800C GSM Module
 
-  <img height="120" src="img/sim800.png" />
+  <img height="120" src="img/sim800.jpg" />
 
 -  CP2102 MICRO USB to UART TTL Module
 
@@ -158,7 +158,7 @@ It looks like PIR sensors perform badly in cold temperature. Mine starts losing 
 ## Project files
 - /config-util - PC configuration program. Python 2.7 + Tk + pyserial + matplotlib
 - /gsmGuard-firmware - Arduino firmware. In order to successfully compile it, you need to manually install these libs:
-  1. RTCLib from https://github.com/NeiroNx/RTCLib/releases (v1.5.8 or newer)
+  1. RTCLib from https://github.com/NeiroNx/RTCLib (clone the repo or use version ABOVE v1.5.8 if such release exists)
 - /kicad-project - KiCAD schematics and board
 
 ## License

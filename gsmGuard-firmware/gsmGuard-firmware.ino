@@ -162,18 +162,14 @@ void setup() {
   tempHistory.baseTime.save();
   */
   
+
   /*
   //PIR test
+  digitalWrite(LED_BUILTIN, HIGH);
+  Hardware::pwrOn();
   while(1) {
-      char t[] = "DD.MM.YY hh:mm:ss";
-      const auto d = Hardware::now();
-     DBG(F("Time:"), d.format(t));
-    if(Hardware::pir(d)) {
-      digitalWrite(LED_BUILTIN, 0);
-      delay(1000);
-    }
-    digitalWrite(LED_BUILTIN, 1);
-    delay(100);
+    DBG(F("PIR:"), digitalRead(PIR_PIN));
+    delay(200);
   }
   */
 

@@ -148,8 +148,8 @@ class Connector:
         if crc != Connector.crc(buff):
             raise Exception('Read CRC error')
         conf = {}
-        conf['numb'] = struct.unpack_from('13s', buff)[0].rstrip('\0')
-        buff = buff[13:]
+        conf['numb'] = struct.unpack_from('15s', buff)[0].rstrip('\0')
+        buff = buff[15:]
         buff = buff[3:] #lang
         conf['dRep'] = struct.unpack_from('6s', buff)[0].rstrip('\0')
         buff = buff[6:]
