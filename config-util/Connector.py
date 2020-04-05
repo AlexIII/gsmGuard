@@ -81,7 +81,7 @@ class Connector:
                 p.close()
                 raise Exception('No answer for '+name+' request')
             if Connector.debug:
-                print(name + ' CSV: ' + csv)
+                print(name + ' CSV: \r\n' + csv)
             return csv
 
         #request event history

@@ -20,7 +20,7 @@ from Local import Local, setLocale, getLocales, getCurrentLocale
 from resource_path import resource_path
 
 #setLocale('RU')
-appVersion = "1.1"
+appVersion = "1.3"
 
 class ScheduleEntry:
     def __init__(self, root, row, deleteButton = None):

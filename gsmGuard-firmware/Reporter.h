@@ -24,7 +24,7 @@ public:
   Error send(const F& printer) {
     if(const Error e = initModem()) return e;
     if(!modem.sendSMS_UTF8(target, printer)) return E_SMS;
-    DBG("Modem send sms ok.");
+    DBG(F("Modem send sms ok."));
     return NO_ERROR;    
   }
   Error call() {
@@ -32,7 +32,7 @@ public:
     modem.sendAT(GF("+COLP=1"));
     modem.waitResponse();
     if(!modem.callNumber(target)) return E_CALL;
-    DBG("Modem call ok.");
+    DBG(F("Modem call ok."));
     delay(180000UL); //wait for 3 min
     modem.callHangup();
     return NO_ERROR; 
@@ -59,10 +59,10 @@ private:
     pinMode(BOOT_PIN, OUTPUT);
     delay(1000);
     if(!modem.init()) return E_CANT_INIT;
-    DBG("Modem init ok.");
+    DBG(F("Modem init ok."));
     modem.handsFree();
     if (!modem.waitForNetwork()) return E_REG;
-    DBG("Modem reg ok.");
+    DBG(F("Modem reg ok."));
     return NO_ERROR;
   }
 };

@@ -154,14 +154,21 @@ void setup() {
   DBG(F("System inited."));
 
   
-  /*
+  
   //reset history
+  /*
   tempHistory.reset();
   status.events.reset();
-  tempHistory.baseTime.time = Hardware::now().unixtime();
-  tempHistory.baseTime.save();
   */
-  
+
+  /*
+  tempHistory.update(-10, Hardware::now());
+  tempHistory.update(-6, Hardware::now());
+  tempHistory.update(-2, Hardware::now());
+  tempHistory.update(10, Hardware::now());
+  tempHistory.update(5, Hardware::now());
+  tempHistory.update(0, Hardware::now());
+  */
 
   /*
   //PIR test
@@ -173,9 +180,11 @@ void setup() {
   }
   */
 
+  char t[] = "DD.MM.YY hh:mm:ss";
+  DBG(F("Time:"), Hardware::now().format(t));
+  DBG(F("Free EEPROM bytes:"), EEPROMallocator::free());
+
   if(Hardware::isExtPower() || receiveCommand(true)) { //We're being configurated, so 
-    char t[] = "DD.MM.YY hh:mm:ss";
-    DBG(F("Time:"), Hardware::now().format(t));
     if(Hardware::isExtPower()) DBG(F("USB connection detected. Awaiting config."));
     status.events.clearActions(); //no need to report old events,
     while(1) {
@@ -183,7 +192,6 @@ void setup() {
     }
   }
   
-  DBG(F("Free EEPROM bytes:"), EEPROMallocator::free());
   if(!config.chkCRC()) { //broken config
     status.events.reset(); //reset memory
     tempHistory.reset();
@@ -191,14 +199,6 @@ void setup() {
     while(1); 
   }
 
-/*
-  tempHistory.update({-20, -10, -15}, Hardware::now());
-  tempHistory.update({-21, -11, -16}, Hardware::now());
-  tempHistory.update({-22, -12, -17}, Hardware::now());
-  tempHistory.update({-23, -13, -18}, Hardware::now());
-  tempHistory.update({-20, -10, -15}, Hardware::now());
-  tempHistory.update({-17, -3, -10}, Hardware::now());
-*/
   sleep_init();
 }
 

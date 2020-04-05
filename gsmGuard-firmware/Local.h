@@ -5,6 +5,9 @@
  * license: MIT
  */
 
+#ifndef _LOCAL_H_
+#define _LOCAL_H_
+
 #ifdef LOCAL_RU
 
   //for Event.h
@@ -60,4 +63,6 @@
   #define STR_STATUS_LIGHT            "light"
   #define STR_STATUS_BAT              "bat."
   #define STR_STATUS_EXT              "ext."
+#endif
+
 #endif
